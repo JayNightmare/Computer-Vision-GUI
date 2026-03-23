@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workshop 2 — Image Processing Presentation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ctp-base: #1e1e2e;
+      --ctp-mantle: #181825;
+      --ctp-crust: #11111b;
+      --ctp-surface: #313244;
+      --ctp-text: #cdd6f4;
+      --ctp-subtext: #a6adc8;
+      --ctp-blue: #89b4fa;
+      --ctp-green: #a6e3a1;
+      --ctp-red: #f38ba8;
+      --ctp-peach: #fab387;
+      --ctp-mauve: #cba6f7;
+      --ctp-yellow: #f9e2af;
+      --ctp-lavender: #b4befe;
+    }
+
+    .reveal-viewport {
+      background: var(--ctp-base);
+    }
+
+    .reveal {
+      font-family: 'Inter', sans-serif;
+      color: var(--ctp-text);
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4 {
+      font-family: 'Inter', sans-serif;
+      color: var(--ctp-text);
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+
+    .reveal h1 {
+      font-size: 2em;
+    }
+
+    .reveal h2 {
+      font-size: 1.5em;
+    }
+
+    .reveal h3 {
+      font-size: 1.1em;
+      color: var(--ctp-blue);
+    }
+
+    .reveal p,
+    .reveal li {
+      font-size: 0.72em;
+      line-height: 1.5;
+      color: var(--ctp-subtext);
+    }
+
+    .reveal section {
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 20px 40px !important;
+    }
+
+    .reveal strong {
+      color: var(--ctp-text);
+      font-weight: 600;
+    }
+
+    .reveal code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      background: var(--ctp-surface);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75em;
+      color: var(--ctp-green);
+    }
+
+    .reveal pre code {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.55em;
+      line-height: 1.4;
+      background: var(--ctp-mantle);
+      border: 1px solid var(--ctp-surface);
+    }
+
+    .reveal pre {
+      width: 100%;
+      max-width: 100%;
+      margin: 10px auto;
+    }
+
+    .reveal ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .reveal ul li::before {
+      content: "▸ ";
+      color: var(--ctp-blue);
+      font-weight: bold;
+    }
+
+    .reveal ul ul li::before {
+      content: "◦ ";
+      color: var(--ctp-mauve);
+    }
+
+    .reveal .slide-number {
+      color: var(--ctp-subtext);
+      font-size: 14px;
+    }
+
+    /* ── Custom classes ─────────────────────────────────────── */
+
+    .accent-blue {
+      color: var(--ctp-blue) !important;
+    }
+
+    .accent-green {
+      color: var(--ctp-green) !important;
+    }
+
+    .accent-red {
+      color: var(--ctp-red) !important;
+    }
+
+    .accent-peach {
+      color: var(--ctp-peach) !important;
+    }
+
+    .accent-mauve {
+      color: var(--ctp-mauve) !important;
+    }
+
+    .title-slide h1 {
+      font-size: 2.2em;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--ctp-blue), var(--ctp-mauve));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.2em;
+    }
+
+    .title-slide .subtitle {
+      font-size: 1em;
+      color: var(--ctp-subtext);
+      font-weight: 300;
+    }
+
+    .title-slide .meta {
+      margin-top: 2em;
+      font-size: 0.75em;
+      color: var(--ctp-surface);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+      max-width: 95%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card {
+      background: var(--ctp-surface);
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-align: left;
+      border-left: 3px solid var(--ctp-blue);
+    }
+
+    .card.green {
+      border-left-color: var(--ctp-green);
+    }
+
+    .card.red {
+      border-left-color: var(--ctp-red);
+    }
+
+    .card.peach {
+      border-left-color: var(--ctp-peach);
+    }
+
+    .card.mauve {
+      border-left-color: var(--ctp-mauve);
+    }
+
+    .card.yellow {
+      border-left-color: var(--ctp-yellow);
+    }
+
+    .card h4 {
+      margin: 0 0 6px 0;
+      font-size: 0.8em;
+      color: var(--ctp-text);
+    }
+
+    .card p,
+    .card li {
+      font-size: 0.6em;
+      margin: 0;
+    }
+
+    .formula-box {
+      background: var(--ctp-mantle);
+      border: 1px solid var(--ctp-surface);
+      border-radius: 10px;
+      padding: 14px 24px;
+      margin: 14px auto;
+      font-size: 0.85em;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--ctp-yellow);
+      text-align: center;
+      max-width: 75%;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+      max-width: 95%;
+      margin: 0 auto;
+    }
+
+    .two-col-60-40 {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .arch-tree {
+      background: var(--ctp-mantle);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5em;
+      line-height: 1.6;
+      color: var(--ctp-subtext);
+      text-align: left;
+      border: 1px solid var(--ctp-surface);
+    }
+
+    .arch-tree .highlight {
+      color: var(--ctp-blue);
+      font-weight: 600;
+    }
+
+    .arch-tree .hl-green {
+      color: var(--ctp-green);
+      font-weight: 600;
+    }
+
+    .arch-tree .hl-red {
+      color: var(--ctp-red);
+      font-weight: 600;
+    }
+
+    .arch-tree .hl-peach {
+      color: var(--ctp-peach);
+      font-weight: 600;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.55em;
+      font-weight: 600;
+      margin: 2px;
+    }
+
+    .pill-blue {
+      background: rgba(137, 180, 250, 0.15);
+      color: var(--ctp-blue);
+    }
+
+    .pill-green {
+      background: rgba(166, 227, 161, 0.15);
+      color: var(--ctp-green);
+    }
+
+    .pill-red {
+      background: rgba(243, 139, 168, 0.15);
+      color: var(--ctp-red);
+    }
+
+    .pill-mauve {
+      background: rgba(203, 166, 247, 0.15);
+      color: var(--ctp-mauve);
+    }
+
+    .pill-peach {
+      background: rgba(250, 179, 135, 0.15);
+      color: var(--ctp-peach);
+    }
+
+    .section-divider {
+      text-align: center;
+    }
+
+    .section-divider h2 {
+      font-size: 2em;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--ctp-blue), var(--ctp-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-divider p {
+      font-size: 0.85em;
+      color: var(--ctp-subtext);
+    }
+
+    .reveal table {
+      margin: 14px auto;
+      border-collapse: collapse;
+      font-size: 0.6em;
+      max-width: 90%;
+    }
+
+    .reveal table th {
+      background: var(--ctp-surface);
+      color: var(--ctp-blue);
+      padding: 8px 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .reveal table td {
+      padding: 6px 14px;
+      border-bottom: 1px solid var(--ctp-surface);
+      color: var(--ctp-subtext);
+    }
+
+    .strengths-limits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+
+    .strengths-limits .col {
+      background: var(--ctp-mantle);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: left;
+    }
+
+    .strengths-limits .col h4 {
+      margin-top: 0;
+    }
+
+    .pipeline-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .pipeline-step {
+      background: var(--ctp-surface);
+      border-radius: 8px;
+      padding: 10px 14px;
+      text-align: center;
+      font-size: 0.6em;
+      font-weight: 600;
+      color: var(--ctp-text);
+      min-width: 100px;
+    }
+
+    .pipeline-step small {
+      display: block;
+      font-weight: 400;
+      color: var(--ctp-subtext);
+      font-size: 0.8em;
+      margin-top: 3px;
+    }
+
+    .pipeline-arrow {
+      color: var(--ctp-blue);
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .reveal .progress {
+      color: var(--ctp-blue);
+      height: 3px;
+    }
+
+    .reveal .controls {
+      color: var(--ctp-blue);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ════════════════════════════════════════════════════════
+           SLIDE 1 — TITLE
+           ════════════════════════════════════════════════════════ -->
+      <section class="title-slide">
+        <h1>Image Processing<br />Workshop 2</h1>
+        <p class="subtitle">Retinex Enhancement &amp; Interactive Point Processing</p>
+        <p class="meta">Computer Vision · Kingston University</p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SLIDE 2 — AGENDA
+           ════════════════════════════════════════════════════════ -->
+      <section>
+        <h2>Agenda</h2>
+        <div class="card-grid" style="max-width: 750px; margin: 30px auto;">
+          <div class="card">
+            <h4>1 · Theory</h4>
+            <p>Retinex model, SSR, MSR &amp; human perception</p>
+          </div>
+          <div class="card green">
+            <h4>2 · Processing</h4>
+            <p>Point operations — brightness, contrast, gamma, equalization</p>
+          </div>
+          <div class="card red">
+            <h4>3 · Histograms</h4>
+            <p>Histogram computation, equalization, CLAHE &amp; negative</p>
+          </div>
+          <div class="card mauve">
+            <h4>4 · GUI</h4>
+            <p>Tkinter dashboard, dark theme, real-time controls</p>
+          </div>
+          <div class="card peach" style="grid-column: 1 / -1;">
+            <h4>5 · Output</h4>
+            <p>CLI pipeline results, comparison figures, and saved artefacts</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SLIDE 3 — ARCHITECTURE
+           ════════════════════════════════════════════════════════ -->
+      <section>
+        <h2>Project Architecture</h2>
+        <div class="two-col">
+          <div class="arch-tree">
+            Workshop 2/<br />
+            ├── <span class="hl-peach">theory/</span>retinex_theory.md<br />
+            ├── <span class="hl-green">retinex/</span>retinex.py<br />
+            ├── <span class="highlight">processing/</span>point_ops.py<br />
+            ├── <span class="hl-red">gui/</span><br />
+            │&nbsp;&nbsp; ├── app.py<br />
+            │&nbsp;&nbsp; ├── dashboard_tab.py<br />
+            │&nbsp;&nbsp; └── histogram_tab.py<br />
+            ├── utils/visualization.py<br />
+            ├── main.py&nbsp;&nbsp;<span style="color:#6c7086">← CLI</span><br />
+            ├── gui_main.py&nbsp;&nbsp;<span style="color:#6c7086">← GUI</span><br />
+            ├── image/&nbsp;&nbsp;<span style="color:#6c7086">← inputs</span><br />
+            └── output/&nbsp;&nbsp;<span style="color:#6c7086">← results</span>
+          </div>
+          <div>
+            <h3>Design Principles</h3>
+            <ul>
+              <li><strong>Separation of concerns</strong> — algorithms have zero UI code</li>
+              <li><strong>Two front-ends</strong> — CLI (Retinex) + GUI (point processing)</li>
+              <li><strong>Shared processing</strong> layer used by both pipelines</li>
+              <li><strong>NumPy arrays</strong> as the universal data type</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SECTION — THEORY
+           ════════════════════════════════════════════════════════ -->
+      <section class="section-divider">
+        <h2>1 · Theory</h2>
+        <p>Retinex model &amp; human perception</p>
+      </section>
+
+      <!-- SLIDE — Retinex Concept -->
+      <section>
+        <h2>The Retinex Model</h2>
+        <p style="font-size:0.9em;"><strong class="accent-blue">Retinex</strong> = <em>retina</em> + <em>cortex</em>
+          &nbsp;(Land, 1977)</p>
+        <p>An observed image is decomposed into two components:</p>
+        <div class="formula-box">
+          I(x, y) &nbsp;=&nbsp; R(x, y) &nbsp;×&nbsp; L(x, y)
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Symbol</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Reflectance</strong></td>
+              <td>R(x, y)</td>
+              <td>Intrinsic surface colour, independent of lighting</td>
+            </tr>
+            <tr>
+              <td><strong>Illumination</strong></td>
+              <td>L(x, y)</td>
+              <td>Scene lighting — varies slowly across space</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Goal: <strong>estimate and remove</strong> the illumination → reveal true appearance.</p>
+      </section>
+
+      <!-- SLIDE — SSR -->
+      <section>
+        <h2>Single-Scale Retinex (SSR)</h2>
+        <p>Estimate illumination via <strong>Gaussian blur</strong>; work in log-space to convert multiplication →
+          subtraction:</p>
+        <div class="formula-box">
+          R<sub>ssr</sub>(x, y) = log( I(x, y) ) − log( G<sub>σ</sub> ∗ I(x, y) )
+        </div>
+        <div class="two-col" style="margin-top: 20px;">
+          <div class="card">
+            <h4 class="accent-blue">Small σ</h4>
+            <p>Preserves fine detail but poor dynamic-range compression</p>
+          </div>
+          <div class="card green">
+            <h4 class="accent-green">Large σ</h4>
+            <p>Strong dynamic-range compression but may lose local contrast</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE — MSR -->
+      <section>
+        <h2>Multi-Scale Retinex (MSR)</h2>
+        <p>Averages SSR results across <strong>multiple scales</strong> to balance both needs:</p>
+        <div class="formula-box">
+          R<sub>msr</sub>(x, y) = (1/N) &nbsp;Σ&nbsp; [ log( I ) − log( G<sub>σₙ</sub> ∗ I ) ]
+        </div>
+        <p style="margin-top: 16px;">Typical scale triplet: <span class="pill pill-blue">σ = 15</span> <span
+            class="pill pill-green">σ = 80</span> <span class="pill pill-red">σ = 250</span> &nbsp;(Jobson et al., 1997)
+        </p>
+        <p><strong>Result:</strong> good local contrast <em>and</em> good dynamic-range compression.</p>
+      </section>
+
+      <!-- SLIDE — SSR Implementation -->
+      <section>
+        <h2>SSR — Implementation</h2>
+        <pre><code class="language-python">def single_scale_retinex(image: np.ndarray, sigma: float) -> np.ndarray:
+    """Apply Single-Scale Retinex to an image."""
+    blurred = cv2.GaussianBlur(image, (0, 0), sigma)
+    retinex = np.log10(image + _EPSILON) - np.log10(blurred + _EPSILON)
+    return retinex</code></pre>
+        <ul style="margin-top: 16px;">
+          <li><code>_EPSILON = 1.0</code> prevents <code>log(0)</code></li>
+          <li>Kernel size <code>(0, 0)</code> lets OpenCV auto-compute from σ</li>
+          <li>Returns log-space result — needs normalisation before display</li>
+        </ul>
+      </section>
+
+      <!-- SLIDE — MSR Implementation -->
+      <section>
+        <h2>MSR — Implementation</h2>
+        <pre><code class="language-python">def multi_scale_retinex(
+    image: np.ndarray,
+    sigmas: list[float] | None = None,
+) -> np.ndarray:
+    """Average SSR results across multiple Gaussian scales."""
+    if sigmas is None:
+        sigmas = [15.0, 80.0, 250.0]
+
+    retinex = np.zeros_like(image, dtype=np.float64)
+    for sigma in sigmas:
+        retinex += single_scale_retinex(image, sigma)
+
+    retinex /= len(sigmas)
+    return retinex</code></pre>
+        <p>Composes SSR at each scale then averages — simple yet effective.</p>
+      </section>
+
+      <!-- SLIDE — Human Perception -->
+      <section>
+        <h2>Human Perception &amp; Lightness Constancy</h2>
+        <p>Human vision exhibits <strong class="accent-blue">lightness constancy</strong> — perceiving a surface's
+          colour as roughly the same under varying illumination.</p>
+        <div class="two-col" style="margin-top: 14px;">
+          <div class="card">
+            <h4>Example</h4>
+            <p>A white sheet looks "white" both indoors under tungsten light and outdoors in daylight — even though the
+              wavelengths differ dramatically.</p>
+          </div>
+          <div class="card green">
+            <h4>Why Retinex Works</h4>
+            <p>The visual system estimates illumination and "divides it out", leaving perceived reflectance — exactly
+              what the algorithm does mathematically.</p>
+          </div>
+        </div>
+        <p style="margin-top: 14px;">Retinex mimics this perceptual normalisation — enhanced images look <strong>more
+            natural</strong> because they model what our eyes already do.</p>
+      </section>
+
+      <!-- SLIDE — Strengths & Limitations -->
+      <section>
+        <h2>Strengths &amp; Limitations</h2>
+        <div class="strengths-limits">
+          <div class="col" style="border-left: 4px solid var(--ctp-green);">
+            <h4 class="accent-green">✓ Strengths</h4>
+            <ul>
+              <li>Enhanced detail in shadows</li>
+              <li>Dynamic-range compression (HDR-like)</li>
+              <li>More natural, perceptually pleasing colour</li>
+            </ul>
+          </div>
+          <div class="col" style="border-left: 4px solid var(--ctp-red);">
+            <h4 class="accent-red">✗ Limitations</h4>
+            <ul>
+              <li>Halo artefacts near strong edges</li>
+              <li>Colour distortion without MSRCR</li>
+              <li>Computational cost for large σ kernels</li>
+              <li>Parameter sensitivity (σ tuning)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SECTION — PROCESSING
+           ════════════════════════════════════════════════════════ -->
+      <section class="section-divider">
+        <h2>2 · Processing</h2>
+        <p>Point operations in <code>processing/point_ops.py</code></p>
+      </section>
+
+      <!-- SLIDE — Processing Overview -->
+      <section>
+        <h2>Point Operations Overview</h2>
+        <p style="margin-bottom: 6px;">Six pure functions — <strong>no UI, no I/O</strong>. Accept and return NumPy
+          arrays.</p>
+        <div class="card-grid-3">
+          <div class="card">
+            <h4>Brightness</h4>
+            <p><code>g = f + β</code></p>
+            <p style="margin-top: 6px;">Add/subtract a bias</p>
+          </div>
+          <div class="card green">
+            <h4>Contrast</h4>
+            <p><code>g = α · f</code></p>
+            <p style="margin-top: 6px;">Scale pixel intensities</p>
+          </div>
+          <div class="card red">
+            <h4>Gamma</h4>
+            <p><code>O = (I/255)<sup>1/γ</sup> × 255</code></p>
+            <p style="margin-top: 6px;">Non-linear LUT transform</p>
+          </div>
+          <div class="card mauve">
+            <h4>Hist. Equalization</h4>
+            <p>YCrCb → equalise Y</p>
+            <p style="margin-top: 6px;">Global contrast stretch</p>
+          </div>
+          <div class="card peach">
+            <h4>CLAHE</h4>
+            <p>Adaptive equalization</p>
+            <p style="margin-top: 6px;">Clip-limited, tiled grid</p>
+          </div>
+          <div class="card yellow">
+            <h4>Negative</h4>
+            <p><code>g = 255 − f</code></p>
+            <p style="margin-top: 6px;">Photographic inversion</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE — Brightness & Contrast -->
+      <section>
+        <h2>Brightness &amp; Contrast</h2>
+        <div class="two-col">
+          <div>
+            <h3>Brightness</h3>
+            <div class="formula-box" style="font-size: 0.9em;">g(x,y) = f(x,y) + β</div>
+            <pre><code class="language-python">def adjust_brightness(image, beta):
+    return cv2.convertScaleAbs(
+        image, alpha=1.0, beta=beta
+    )</code></pre>
+            <p>β range: −100 … +100</p>
+          </div>
+          <div>
+            <h3>Contrast</h3>
+            <div class="formula-box" style="font-size: 0.9em;">g(x,y) = α · f(x,y)</div>
+            <pre><code class="language-python">def adjust_contrast(image, alpha):
+    return cv2.convertScaleAbs(
+        image, alpha=alpha, beta=0
+    )</code></pre>
+            <p>α range: 0.5 … 3.0</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE — Gamma Correction -->
+      <section>
+        <h2>Gamma Correction</h2>
+        <div class="formula-box">
+          O = (I / 255)<sup style="color:var(--ctp-peach)">1/γ</sup> × 255
+        </div>
+        <pre><code class="language-python">def gamma_correction(image, gamma):
+    if gamma <= 0:
+        gamma = 0.01
+    inv_gamma = 1.0 / gamma
+    table = np.array(
+        [((i / 255.0) ** inv_gamma) * 255 for i in range(256)],
+        dtype=np.uint8,
+    )
+    return cv2.LUT(image, table)</code></pre>
+        <div class="two-col" style="margin-top: 16px;">
+          <div class="card">
+            <h4>γ &lt; 1 → Brighten</h4>
+            <p>Boosts dark regions, expands shadows</p>
+          </div>
+          <div class="card green">
+            <h4>γ &gt; 1 → Darken</h4>
+            <p>Compresses highlights, deepens tones</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE — Histogram Equalization & CLAHE -->
+      <section>
+        <h2>Histogram Equalization &amp; CLAHE</h2>
+        <div class="two-col">
+          <div>
+            <h3>Global Equalization</h3>
+            <pre><code class="language-python">def histogram_equalization(image):
+    ycrcb = cv2.cvtColor(
+        image, cv2.COLOR_BGR2YCrCb
+    )
+    ycrcb[:, :, 0] = cv2.equalizeHist(
+        ycrcb[:, :, 0]
+    )
+    return cv2.cvtColor(
+        ycrcb, cv2.COLOR_YCrCb2BGR
+    )</code></pre>
+            <p>Equalises luminance (Y channel) only — preserves colour chrominance.</p>
+          </div>
+          <div>
+            <h3>CLAHE</h3>
+            <pre><code class="language-python">def apply_clahe(image,
+    clip_limit=2.0,
+    tile_grid_size=(8, 8)):
+    clahe = cv2.createCLAHE(
+        clipLimit=clip_limit,
+        tileGridSize=tile_grid_size
+    )
+    ycrcb = cv2.cvtColor(
+        image, cv2.COLOR_BGR2YCrCb
+    )
+    ycrcb[:, :, 0] = clahe.apply(
+        ycrcb[:, :, 0]
+    )
+    return cv2.cvtColor(
+        ycrcb, cv2.COLOR_YCrCb2BGR
+    )</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SECTION — HISTOGRAMS
+           ════════════════════════════════════════════════════════ -->
+      <section class="section-divider">
+        <h2>3 · Histograms</h2>
+        <p>Per-channel computation &amp; visual comparison</p>
+      </section>
+
+      <!-- SLIDE — compute_histogram -->
+      <section>
+        <h2>Histogram Computation</h2>
+        <pre><code class="language-python">def compute_histogram(image: np.ndarray) -> dict[str, np.ndarray]:
+    """Compute per-channel histograms for BGR or grayscale image."""
+    if image.ndim == 2:
+        hist = cv2.calcHist([image], [0], None, [256], [0, 256])
+        return {"gray": hist.flatten()}
+
+    channels = {"b": 0, "g": 1, "r": 2}
+    result: dict[str, np.ndarray] = {}
+    for name, idx in channels.items():
+        hist = cv2.calcHist([image], [idx], None, [256], [0, 256])
+        result[name] = hist.flatten()
+    return result</code></pre>
+        <div style="margin-top: 16px;">
+          <span class="pill pill-blue">Blue channel</span>
+          <span class="pill pill-green">Green channel</span>
+          <span class="pill pill-red">Red channel</span>
+          <span class="pill pill-mauve">Grayscale fallback</span>
+        </div>
+      </section>
+
+      <!-- SLIDE — Histogram Tab Logic -->
+      <section>
+        <h2>Histogram Tab — Three-Way Comparison</h2>
+        <p>The <strong>Histogram Tab</strong> renders three views side-by-side, each with its own histogram:</p>
+        <div class="card-grid-3" style="margin-top: 20px;">
+          <div class="card">
+            <h4>Current</h4>
+            <p>Applies dashboard slider values (brightness, contrast, gamma) to the original image</p>
+          </div>
+          <div class="card green">
+            <h4>CLAHE</h4>
+            <p>Adaptive equalization applied on top of the current adjustments</p>
+          </div>
+          <div class="card red">
+            <h4>Negative</h4>
+            <p>Photographic inversion (<code>255 − pixel</code>) of the current image</p>
+          </div>
+        </div>
+        <p style="margin-top: 16px;">Histograms are drawn with <strong>Matplotlib</strong> embedded in Tkinter via
+          <code>FigureCanvasTkAgg</code>, using the Catppuccin colour palette.
+        </p>
+      </section>
+
+      <!-- SLIDE — Histogram Rendering -->
+      <section>
+        <h2>Histogram Rendering</h2>
+        <pre><code class="language-python">def _draw_histogram(self, img, ax, canvas, title):
+    ax.clear()
+    self._style_axis(ax, title)
+
+    hist_data = compute_histogram(img)
+
+    if "gray" in hist_data:
+        ax.plot(hist_data["gray"], color="#cdd6f4",
+                linewidth=1.2, alpha=0.85)
+    else:
+        for channel, color in _HIST_COLORS.items():
+            ax.plot(hist_data[channel], color=color,
+                    linewidth=1.2, alpha=0.85)
+
+    ax.set_xlim([0, 256])
+    canvas.draw_idle()</code></pre>
+        <p>Colour mapping: <span class="pill pill-blue">#89b4fa Blue</span> <span class="pill pill-green">#a6e3a1
+            Green</span> <span class="pill pill-red">#f38ba8 Red</span></p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SECTION — GUI
+           ════════════════════════════════════════════════════════ -->
+      <section class="section-divider">
+        <h2>4 · GUI</h2>
+        <p>Interactive Tkinter dashboard</p>
+      </section>
+
+      <!-- SLIDE — GUI Architecture -->
+      <section>
+        <h2>GUI Architecture</h2>
+        <div style="display:flex; align-items:center; justify-content:center; gap:16px; margin-top:30px;">
+          <!-- Entry point -->
+          <div class="pipeline-step" style="border: 2px solid var(--ctp-blue);">
+            gui_main.py
+            <small>Entry point</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <!-- App -->
+          <div class="pipeline-step" style="border: 2px solid var(--ctp-green);">
+            app.py
+            <small>Tk root, theme, menu</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <!-- Notebook -->
+          <div class="pipeline-step" style="border: 2px solid var(--ctp-red);">
+            Tabbed Notebook
+            <small>ttk.Notebook</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <!-- Branch into two tabs -->
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div class="pipeline-step" style="border: 2px solid var(--ctp-mauve);">
+              Dashboard Tab
+              <small>Preview + sliders + histograms</small>
+            </div>
+            <div class="pipeline-step" style="border: 2px solid var(--ctp-peach);">
+              Histogram Tab
+              <small>Current / CLAHE / Negative</small>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:20px;">Both tabs share <code>processing/point_ops.py</code> for all image transformations.
+        </p>
+      </section>
+
+      <!-- SLIDE — Dark Theme -->
+      <section>
+        <h2>Catppuccin Dark Theme</h2>
+        <p>All colours drawn from the <strong>Catppuccin Mocha</strong> palette, applied via <code>ttk.Style</code>:</p>
+        <div class="card-grid" style="max-width: 700px; margin: 20px auto;">
+          <div class="card" style="display:flex;align-items:center;gap:12px;">
+            <div
+              style="width:36px;height:36px;border-radius:8px;background:#1e1e2e;border:1px solid #45475a;flex-shrink:0;">
+            </div>
+            <div>
+              <h4 style="margin:0">Base</h4>
+              <p style="margin:0"><code>#1e1e2e</code></p>
+            </div>
+          </div>
+          <div class="card green" style="display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:#89b4fa;flex-shrink:0;"></div>
+            <div>
+              <h4 style="margin:0">Accent</h4>
+              <p style="margin:0"><code>#89b4fa</code></p>
+            </div>
+          </div>
+          <div class="card red" style="display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:#313244;flex-shrink:0;"></div>
+            <div>
+              <h4 style="margin:0">Surface</h4>
+              <p style="margin:0"><code>#313244</code></p>
+            </div>
+          </div>
+          <div class="card mauve" style="display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:#cdd6f4;flex-shrink:0;"></div>
+            <div>
+              <h4 style="margin:0">Text</h4>
+              <p style="margin:0"><code>#cdd6f4</code></p>
+            </div>
+          </div>
+        </div>
+        <p>Menu bar, tabs, buttons, sliders, and Matplotlib axes all inherit these tokens — a unified aesthetic across
+          every widget.</p>
+      </section>
+
+      <!-- SLIDE — Dashboard Tab -->
+      <section>
+        <h2>Dashboard Tab — Controls</h2>
+        <div class="two-col">
+          <div>
+            <h3>Real-Time Sliders</h3>
+            <ul>
+              <li><strong>Brightness</strong> — −100 to +100</li>
+              <li><strong>Contrast</strong> — 0.5× to 3.0×</li>
+              <li><strong>Gamma</strong> — 0.1 to 3.0</li>
+            </ul>
+            <p style="margin-top: 12px;">Debounced at <strong>50 ms</strong> via <code>after()</code> to prevent lag on
+              fast slider movement.</p>
+            <h3 style="margin-top: 20px;">Action Buttons</h3>
+            <ul>
+              <li><strong>Equalize</strong> — toggle histogram equalization</li>
+              <li><strong>Grayscale</strong> — toggle colour → gray</li>
+              <li><strong>Reset</strong> — restore all defaults</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Processing Pipeline</h3>
+            <pre><code class="language-python">def _compute_altered(self):
+    img = self.app.original_image.copy()
+
+    if brightness != 0:
+        img = adjust_brightness(img, brightness)
+    if contrast != 1.0:
+        img = adjust_contrast(img, contrast)
+    if gamma != 1.0:
+        img = gamma_correction(img, gamma)
+    if self._equalized:
+        img = histogram_equalization(img)
+    if self._grayscale:
+        img = cv2.cvtColor(
+            img, cv2.COLOR_BGR2GRAY
+        )
+
+    return img</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE — Dashboard Layout -->
+      <section>
+        <h2>Dashboard Tab — Layout</h2>
+        <p>Three-row grid layout with dynamic resizing:</p>
+        <div
+          style="background:var(--ctp-mantle);border-radius:12px;padding:24px;max-width:700px;margin:16px auto;border:1px solid var(--ctp-surface);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div style="background:var(--ctp-crust);border-radius:8px;padding:16px;text-align:center;">
+              <span class="accent-blue" style="font-weight:600;font-size:0.8em;">Original Image</span><br />
+              <span style="font-size:0.6em;color:var(--ctp-subtext);">tk.Canvas · #181825</span>
+            </div>
+            <div style="background:var(--ctp-crust);border-radius:8px;padding:16px;text-align:center;">
+              <span class="accent-green" style="font-weight:600;font-size:0.8em;">Altered Image</span><br />
+              <span style="font-size:0.6em;color:var(--ctp-subtext);">tk.Canvas · #181825</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div style="background:var(--ctp-crust);border-radius:8px;padding:12px;text-align:center;">
+              <span class="accent-peach" style="font-weight:600;font-size:0.75em;">Original Histogram</span><br />
+              <span style="font-size:0.55em;color:var(--ctp-subtext);">Matplotlib Figure</span>
+            </div>
+            <div style="background:var(--ctp-crust);border-radius:8px;padding:12px;text-align:center;">
+              <span class="accent-peach" style="font-weight:600;font-size:0.75em;">Altered Histogram</span><br />
+              <span style="font-size:0.55em;color:var(--ctp-subtext);">Matplotlib Figure</span>
+            </div>
+          </div>
+          <div
+            style="background:var(--ctp-surface);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--ctp-blue);">
+            <span class="accent-blue" style="font-weight:600;font-size:0.8em;">Adjustments</span>&nbsp;&nbsp;
+            <span class="pill pill-blue">Brightness</span>
+            <span class="pill pill-green">Contrast</span>
+            <span class="pill pill-red">Gamma</span>
+            <span class="pill pill-mauve">Buttons</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE — Image Display -->
+      <section>
+        <h2>Image Display Logic</h2>
+        <pre><code class="language-python">def _show_image(self, img, canvas, is_original):
+    canvas.update_idletasks()
+    cw = max(canvas.winfo_width(), 200)
+    ch = max(canvas.winfo_height(), 200)
+
+    h, w = img.shape[:2]
+    scale = min(cw / w, ch / h, 1.0)   # fit, never upscale
+    new_w, new_h = int(w * scale), int(h * scale)
+
+    if img.ndim == 2:         # grayscale
+        display = img
+    else:                     # BGR → RGB
+        display = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    resized = cv2.resize(display, (new_w, new_h),
+                         interpolation=cv2.INTER_AREA)
+    pil_img = Image.fromarray(resized)
+    photo = ImageTk.PhotoImage(pil_img)
+
+    canvas.delete("all")
+    canvas.create_image(cw // 2, ch // 2,
+                        anchor=tk.CENTER, image=photo)</code></pre>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SECTION — OUTPUT
+           ════════════════════════════════════════════════════════ -->
+      <section class="section-divider">
+        <h2>5 · Output</h2>
+        <p>CLI pipeline &amp; saved artefacts</p>
+      </section>
+
+      <!-- SLIDE — CLI Pipeline -->
+      <section>
+        <h2>CLI Pipeline</h2>
+        <p>The <code>main.py</code> runner orchestrates the full Retinex pipeline:</p>
+        <div class="pipeline-flow">
+          <div class="pipeline-step" style="border: 2px solid var(--ctp-blue);">
+            Parse Args
+            <small>--image, --mode, --sigmas</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step" style="border: 2px solid var(--ctp-green);">
+            Load Image
+            <small>cv2.imread</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step" style="border: 2px solid var(--ctp-peach);">
+            Apply Retinex
+            <small>SSR or MSR</small>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step" style="border: 2px solid var(--ctp-mauve);">
+            Save Results
+            <small>enhanced + comparison</small>
+          </div>
+        </div>
+        <pre style="margin-top:16px;"><code class="language-bash"># Usage examples
+python main.py                                    # defaults: MSR, σ=15,80,250
+python main.py --image image/photo.jpg --mode ssr  # single-scale
+python main.py --mode msr --sigmas 20,100,300      # custom scales</code></pre>
+      </section>
+
+      <!-- SLIDE — Output Files -->
+      <section>
+        <h2>Output Artefacts</h2>
+        <p>The <code>save_results()</code> function produces two files per run:</p>
+        <div class="card-grid" style="max-width: 700px; margin: 20px auto;">
+          <div class="card">
+            <h4>Enhanced Image</h4>
+            <p><code>{stem}_{mode}_enhanced.jpg</code></p>
+            <p style="margin-top: 6px;">Retinex-enhanced image saved via <code>cv2.imwrite</code></p>
+          </div>
+          <div class="card green">
+            <h4>Comparison Figure</h4>
+            <p><code>{stem}_{mode}_comparison.png</code></p>
+            <p style="margin-top: 6px;">Side-by-side Matplotlib figure at 150 DPI</p>
+          </div>
+        </div>
+        <pre><code class="language-python">def save_results(original, enhanced, output_dir, filename_stem, mode="msr"):
+    output_path = Path(output_dir)
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    enhanced_path = output_path / f"{filename_stem}_{mode}_enhanced.jpg"
+    comparison_path = output_path / f"{filename_stem}_{mode}_comparison.png"
+
+    cv2.imwrite(str(enhanced_path), enhanced)
+    fig = create_comparison(original, enhanced, ...)
+    fig.savefig(str(comparison_path), dpi=150, bbox_inches="tight")</code></pre>
+      </section>
+
+      <!-- SLIDE — Comparison Figure -->
+      <section>
+        <h2>Comparison Visualisation</h2>
+        <pre><code class="language-python">def create_comparison(original, enhanced, title="Retinex Enhancement"):
+    original_rgb = cv2.cvtColor(original, cv2.COLOR_BGR2RGB)
+    enhanced_rgb = cv2.cvtColor(enhanced, cv2.COLOR_BGR2RGB)
+
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig.suptitle(title, fontsize=16, fontweight="bold")
+
+    axes[0].imshow(original_rgb)
+    axes[0].set_title("Original")
+    axes[0].axis("off")
+
+    axes[1].imshow(enhanced_rgb)
+    axes[1].set_title("Enhanced (Retinex)")
+    axes[1].axis("off")
+
+    fig.tight_layout()
+    return fig</code></pre>
+        <p>Caller decides whether to <strong>display</strong> interactively or <strong>save</strong> to disk — clean
+          separation.</p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SLIDE — TECH STACK
+           ════════════════════════════════════════════════════════ -->
+      <section>
+        <h2>Technology Stack</h2>
+        <div class="card-grid" style="max-width: 700px; margin: 20px auto;">
+          <div class="card">
+            <h4>OpenCV</h4>
+            <p>Core image processing, colour space conversion, I/O</p>
+          </div>
+          <div class="card green">
+            <h4>NumPy</h4>
+            <p>Array operations, mathematical transforms</p>
+          </div>
+          <div class="card red">
+            <h4>Matplotlib</h4>
+            <p>Histogram plots, comparison figures</p>
+          </div>
+          <div class="card mauve">
+            <h4>Tkinter</h4>
+            <p>GUI framework — ships with Python</p>
+          </div>
+          <div class="card peach" style="grid-column: 1 / -1;">
+            <h4>Pillow (PIL)</h4>
+            <p>Bridge between OpenCV arrays and Tkinter <code>PhotoImage</code> widgets</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════
+           SLIDE — SUMMARY
+           ════════════════════════════════════════════════════════ -->
+      <section>
+        <h2>Summary</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Area</th>
+              <th>Key Takeaway</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Theory</strong></td>
+              <td>Retinex decomposes image = reflectance × illumination; SSR &amp; MSR balance detail vs. dynamic range
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Processing</strong></td>
+              <td>6 pure point-op functions; all accept/return NumPy — framework agnostic</td>
+            </tr>
+            <tr>
+              <td><strong>Histograms</strong></td>
+              <td>Per-channel BGR or grayscale; three-way comparison (Current / CLAHE / Negative)</td>
+            </tr>
+            <tr>
+              <td><strong>GUI</strong></td>
+              <td>Dark-themed Tkinter with real-time sliders, debounced refresh, dual-tab layout</td>
+            </tr>
+            <tr>
+              <td><strong>Output</strong></td>
+              <td>CLI saves enhanced image + side-by-side comparison figure</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SLIDE — References -->
+      <section>
+        <h2>References</h2>
+        <ul>
+          <li>Land, E. H. (1977). <em>The Retinex Theory of Color Vision</em>. Scientific American.</li>
+          <li>Jobson, D. J., Rahman, Z., &amp; Woodell, G. A. (1997). <em>A Multiscale Retinex for Bridging the Gap
+              Between Color Images and the Human Observation of Scenes</em>. IEEE TIP.</li>
+        </ul>
+        <p
+          style="margin-top: 40px; font-size: 1.3em; font-weight: 700; background: linear-gradient(135deg, var(--ctp-blue), var(--ctp-mauve)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          Thank You</p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      transition: 'slide',
+      transitionSpeed: 'default',
+      width: 1100,
+      height: 700,
+      margin: 0.06,
+      plugins: [RevealHighlight],
+    });
+  </script>
+</body>
+
+</html>
